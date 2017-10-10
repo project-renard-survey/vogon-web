@@ -373,6 +373,7 @@ AppellationCreator = {
                        <div class="checkbox">
                            <label><input type="checkbox" v-model="create"> I've tried so hard, but I can't find what I'm looking for!</label>
                        </div>
+                       <button type="button" class="btn btn-info">Date Apellation</button>
                    </div>
                    <concept-search
                        v-if="concept == null && !create"
