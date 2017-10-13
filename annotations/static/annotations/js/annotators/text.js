@@ -373,7 +373,6 @@ AppellationCreator = {
                        <div class="checkbox">
                            <label><input type="checkbox" v-model="create"> I've tried so hard, but I can't find what I'm looking for!</label>
                        </div>
-                       <button type="button" class="btn btn-info">Date Apellation</button>
                    </div>
                    <concept-search
                        v-if="concept == null && !create"
@@ -869,6 +868,76 @@ RelationTemplateSelector = {
 }
 
 
+BaselessDateAppellation = {
+    data: function() {
+        return {
+            year: null,
+            month: null,
+            day: null,
+            submitted: false,
+            saving: false
+        }
+    },
+    template:`<div class="appellation-creatory">
+                    <div class="h4">
+                        Baseless Date Appellation
+                    </div>
+                    <p class="text-warning">
+                        Create a baseless date appellation (appellation without text evidence) by entering the specific date
+                        in the widget below. Specify only the
+                        precision warranted by the evidence: for example, you
+                        need not enter a month and day if only the year is
+                        known.
+                    </p>
+                    <div class="form-inline">
+                        <input type="number" class="form-control input-sm" placeholder="YYYY" min="-9999" max="9999">
+                        <input type="number" class="form-control input-sm" placeholder="MM" min="-100" max="12">
+                        <input type="number" class="form-control input-sm" placeholder="DD" min="-100" max="31">
+                        <a v-if="ready()" v-on:click="createAppellation" class="btn btn-sm btn-success">Create</a>
+                    </div>
+               </div>`,
+    methods: {
+        ready: function() { return (this.year && !(this.day && !this.month)); },
+        reset: function() {
+            this.concept = null;
+            this.create = false;
+            this.submitted = false;
+            this.saving = false;
+        },
+        cancel: function() {
+            this.reset();
+        },
+        createAppellation: function() {
+            if (!(this.submitted || this.saving)) {
+                // this.submitted = true;      // Prevent multiple submissions.
+                // this.saving = true;
+                self = this;
+                DateAppellation.save({
+                    position: {
+                        occursIn: this.text.id,
+                        position_type: "CO",
+                        position_value: [this.position.startOffset,
+                                         this.position.endOffset].join(",")
+                    },
+                    stringRep: this.position.representation,
+                    occursIn: this.text.id,
+                    createdBy: this.user.id,
+                    project: this.project.id,
+                    year: this.year,
+                    month: this.month,
+                    day: this.day
+                }).then(function(response) {
+                    self.reset();
+                    self.$emit('createddateappellation', response.body);
+                }).catch(function(error){
+                    this.saving = false;
+                    console.log('DateAppellationCreator:: failed to create appellation', error);
+                });
+            }
+        }
+    }
+    }
+
 Appellator = new Vue({
     el: '#appellator',
 
@@ -879,7 +948,8 @@ Appellator = new Vue({
         'appellation-creator': AppellationCreator,
         'relation-creator': RelationCreator,
         'relation-template-selector': RelationTemplateSelector,
-        'date-appellation-creator': DateAppellationCreator
+        'date-appellation-creator': DateAppellationCreator,
+        'baseless-date-appellation-creator': BaselessDateAppellation
     },
     template: `#annotation-template`,
     data: function() {

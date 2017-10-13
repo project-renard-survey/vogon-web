@@ -74,6 +74,8 @@
                                             v-if="template == null && creating_relation"
                                             v-on:selectedtemplate="selectedTemplate">
                                         </relation-template-selector>
+                                        <baseless-date-appellation-creator>
+                                        </baseless-date-appellation-creator>
                                         <relation-creator
                                             v-if="template != null && creating_relation"
                                             v-on:fieldislisteningfortext="fieldIsListeningForText"
