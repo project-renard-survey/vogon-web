@@ -878,7 +878,7 @@ BaselessDateAppellation = {
             saving: false
         }
     },
-    template:`<div class="appellation-creatory">
+    template:`<div class="appellation-creator">
                     <div class="h4">
                         Baseless Date Appellation
                     </div>
@@ -890,9 +890,9 @@ BaselessDateAppellation = {
                         known.
                     </p>
                     <div class="form-inline">
-                        <input type="number" class="form-control input-sm" placeholder="YYYY" min="-9999" max="9999">
-                        <input type="number" class="form-control input-sm" placeholder="MM" min="-100" max="12">
-                        <input type="number" class="form-control input-sm" placeholder="DD" min="-100" max="31">
+                        <input v-model="year" type="number" class="form-control input-sm" placeholder="YYYY" min="-9999" max="9999">
+                        <input v-model="month" type="number" class="form-control input-sm" placeholder="MM" min="-100" max="12">
+                        <input v-model="day" type="number" class="form-control input-sm" placeholder="DD" min="-100" max="31">
                         <a v-if="ready()" v-on:click="createAppellation" class="btn btn-sm btn-success">Create</a>
                     </div>
                </div>`,
