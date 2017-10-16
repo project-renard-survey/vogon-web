@@ -869,6 +869,7 @@ RelationTemplateSelector = {
 
 
 BaselessDateAppellation = {
+    props: ["position", "user", "text", "project"],
     data: function() {
         return {
             year: null,
@@ -911,15 +912,15 @@ BaselessDateAppellation = {
             if (!(this.submitted || this.saving)) {
                 // this.submitted = true;      // Prevent multiple submissions.
                 // this.saving = true;
+                console.log('Baseless DateAppellationCreator');
                 self = this;
                 DateAppellation.save({
                     position: {
                         occursIn: this.text.id,
                         position_type: "CO",
-                        position_value: [this.position.startOffset,
-                                         this.position.endOffset].join(",")
+                        position_value: [0,0]
                     },
-                    stringRep: this.position.representation,
+                    stringRep: this.year,
                     occursIn: this.text.id,
                     createdBy: this.user.id,
                     project: this.project.id,

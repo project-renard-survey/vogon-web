@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f1222f02-2b31-486b-9bcf-f598c33edf11" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/annotations/static/annotations/js/annotators/text.js" afterPath="$PROJECT_DIR$/annotations/static/annotations/js/annotators/text.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/annotations/templates/annotations/vue.html" afterPath="$PROJECT_DIR$/annotations/templates/annotations/vue.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -13,11 +15,41 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="text.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="text.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/annotations/static/annotations/js/annotators/text.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="894" column="43" lean-forward="false" selection-start-line="894" selection-start-column="43" selection-end-line="894" selection-end-column="43" />
+            <state relative-caret-position="248">
+              <caret line="920" column="44" lean-forward="false" selection-start-line="920" selection-start-column="44" selection-end-line="920" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="rest_views.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/annotations/views/rest_views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-200">
+              <caret line="107" column="29" lean-forward="true" selection-start-line="107" selection-start-column="29" selection-end-line="107" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vogon/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="375">
+              <caret line="38" column="62" lean-forward="false" selection-start-line="38" selection-start-column="62" selection-end-line="38" selection-end-column="62" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/annotations/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2348">
+              <caret line="1118" column="20" lean-forward="true" selection-start-line="1118" selection-start-column="20" selection-end-line="1118" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -26,8 +58,8 @@
       <file leaf-file-name="vue.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/annotations/templates/annotations/vue.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="603">
-              <caret line="76" column="75" lean-forward="false" selection-start-line="76" selection-start-column="75" selection-end-line="76" selection-end-column="75" />
+            <state relative-caret-position="462">
+              <caret line="92" column="44" lean-forward="false" selection-start-line="92" selection-start-column="44" selection-end-line="92" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -51,13 +83,19 @@
       <find>appellator</find>
       <find>components</find>
       <find>Here</find>
-      <find>date-appellation-creator</find>
       <find>conductor</find>
       <find>annotation-template</find>
       <find>relation-template-selector</find>
       <find>toggle</find>
       <find>toggleDate</find>
       <find>appellation-creator</find>
+      <find>createdDateAppellation</find>
+      <find>tried</find>
+      <find>text.id</find>
+      <find>position_</find>
+      <find>date-appellation-creator</find>
+      <find>posit</find>
+      <find>rest</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -107,7 +145,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -146,10 +183,22 @@
               <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="annotations" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="vgnwb-221" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vgnwb-221" type="462c0819:PsiDirectoryNode" />
+              <item name="annotations" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vgnwb-221" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vgnwb-221" type="462c0819:PsiDirectoryNode" />
+              <item name="vogon" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -189,7 +238,7 @@
     <frame x="0" y="23" width="1440" height="805" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -217,6 +266,22 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/annotations/static/annotations/js/annotators/text.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/annotations/templates/annotations/vue.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1140">
+          <caret line="76" column="75" lean-forward="false" selection-start-line="76" selection-start-column="75" selection-end-line="76" selection-end-column="75" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/annotations/static/annotations/js/annotators/text.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="435">
@@ -272,16 +337,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/annotations/templates/annotations/vue.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="603">
-          <caret line="76" column="75" lean-forward="false" selection-start-line="76" selection-start-column="75" selection-end-line="76" selection-end-column="75" />
+        <state relative-caret-position="462">
+          <caret line="92" column="44" lean-forward="false" selection-start-line="92" selection-start-column="44" selection-end-line="92" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/annotations/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2348">
+          <caret line="1118" column="20" lean-forward="true" selection-start-line="1118" selection-start-column="20" selection-end-line="1118" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/annotations/static/annotations/js/annotators/text.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="894" column="43" lean-forward="false" selection-start-line="894" selection-start-column="43" selection-end-line="894" selection-end-column="43" />
+        <state relative-caret-position="248">
+          <caret line="920" column="44" lean-forward="false" selection-start-line="920" selection-start-column="44" selection-end-line="920" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vogon/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="38" column="62" lean-forward="false" selection-start-line="38" selection-start-column="62" selection-end-line="38" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/annotations/views/rest_views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-200">
+          <caret line="107" column="29" lean-forward="true" selection-start-line="107" selection-start-column="29" selection-end-line="107" selection-end-column="29" />
           <folding />
         </state>
       </provider>

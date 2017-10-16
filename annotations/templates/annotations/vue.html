@@ -74,7 +74,15 @@
                                             v-if="template == null && creating_relation"
                                             v-on:selectedtemplate="selectedTemplate">
                                         </relation-template-selector>
-                                        <baseless-date-appellation-creator>
+                                        <baseless-date-appellation-creator
+                                            v-bind:user=user
+                                            v-bind:text=text
+                                            v-bind:project=project
+                                            v-bind:position=selected_text
+                                            v-on:createddateappellation="createdDateAppellation"
+                                            v-on:cancelappellation="cancelAppellation"
+                                            v-on:createdappellation="createdAppellation"
+                                        >
                                         </baseless-date-appellation-creator>
                                         <relation-creator
                                             v-if="template != null && creating_relation"
