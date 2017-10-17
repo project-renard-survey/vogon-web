@@ -152,7 +152,6 @@ class DateAppellationViewSet(AnnotationFilterMixin, viewsets.ModelViewSet):
                         headers=headers)
 
 
-
 class AppellationViewSet(SwappableSerializerMixin, AnnotationFilterMixin, viewsets.ModelViewSet):
     queryset = Appellation.objects.filter(asPredicate=False)
     serializer_class = AppellationSerializer
