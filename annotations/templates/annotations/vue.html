@@ -12,6 +12,10 @@
         <script src="{% static 'annotations/js/cytoscape.min.js' %}"></script>
         <!-- <script src="https://unpkg.com/vue/dist/vue.js"></script> -->
         <link rel="stylesheet" href="{% static "annotations/css/annotators/text.css" %}">
+        <!-- Bootstrap Date-Picker Plugin -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
         {% endblock %}
     <!-- </head> -->
     {% block main %}
@@ -33,7 +37,56 @@
                 <div id="appellator">
                     <conductor></conductor> <!-- The appellator interface is inserted here. -->
                 </div>
-                <script id="annotation-template" type="text/x-template">
+
+    <script>
+       $(document).ready(function(){
+           $("#my5").click(function(){
+                $("#my5").datepicker({format:"yyyy",startView: "years",minViewMode: "years"}).focus();
+           });
+
+           $("#my2").click(function(){
+                $("#my2").datepicker({format:"yyyy-mm",startView: "months",minViewMode: "months"}).focus();
+           });
+
+           $("#my3").click(function(){
+                $("#my3").datepicker({format:"yyyy-mm-dd",startView: "days",minViewMode: "days"}).focus();
+           });
+
+           $("#buttonwa").click(function(){
+                alert("Fine");
+           });
+
+            $('#myModal').on('show.bs.modal', function () {
+  alert($(this).attr("data-custom"));
+});
+
+       });
+    </script>
+
+
+
+    <div id="myModal" class="modal fade" role="dialog">
+                          <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Modal Header</h4>
+                              </div>
+                              <div class="modal-body">
+                                  <input type='text' class="form-control"  id="my5"/>
+                                  <input type='text' class="form-control"  id="my2"/>
+                                  <input type='text' class="form-control"  id="my3"/>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+
+            <script id="annotation-template" type="text/x-template">
                     <div class="container-fluid">
                         <div class="row">
 
