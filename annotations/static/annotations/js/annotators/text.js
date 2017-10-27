@@ -439,7 +439,9 @@ AppellationCreator = {
     }
 }
 
-RelationField = {
+
+RelationField =
+{
     props: ["field", "listener"],
     data: function() {
         return {
@@ -480,9 +482,8 @@ RelationField = {
                                 v-if="field.type == 'DT'"
                                 class="btn btn-sm btn-info"
                                 id = "buttonwa"
+                                v-on:click='launch'
                                 data-custom="{{field.part_id}}"
-                                data-toggle="modal"
-                                data-target="#myModal"
                                 title="Create baseless date appellation">
                                 &nbsp;<span class="glyphicon glyphicon-adjust"></span>
                             </button>
@@ -547,13 +548,18 @@ RelationField = {
             this.value_label = null;
             this.$emit('unregisterdata', this.field);
         },
+        launch: function()
+        {
+            console.log('All good');
+            alert('Ok');
+            this.$emit('button_clicked');
+        },
         // We don't want to interfere with other fields, so we respect the
         //  priority of the current listener, if there is one.
         isBlocked: function() { return (this.listener !== undefined && this.listener != null && this.listener != this.field); }
     }
-
 }
-//
+
 
 RelationTemplate = {
     props: ["fields", "name", "description"],
@@ -596,6 +602,10 @@ RelationTemplate = {
     }
 }
 
+ButtonTest =
+{
+template: `<input type="button" value="Here"/>`
+}
 
 RelationDateAssignment = {
     props: ["listener"],
@@ -955,6 +965,28 @@ BaselessDateAppellation = {
     }
     }
 
+ButtonTest = {
+      template: `           <div class="modal fade" role="dialog">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Modal Header</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                      <input type='text' class="form-control"  id="my5"/>
+                                      <input type='text' class="form-control"  id="my2"/>
+                                      <input type='text' class="form-control"  id="my3"/>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        `
+}
+
 Appellator = new Vue({
     el: '#appellator',
 
@@ -966,9 +998,13 @@ Appellator = new Vue({
         'relation-creator': RelationCreator,
         'relation-template-selector': RelationTemplateSelector,
         'date-appellation-creator': DateAppellationCreator,
-        'baseless-date-appellation-creator': BaselessDateAppellation
+        'baseless-date-appellation-creator': BaselessDateAppellation,
+        'modal':ButtonTest
     },
     template: `#annotation-template`,
+    data: {
+    showModal: false
+  },
     data: function() {
         return {
             appellations: [],
@@ -998,7 +1034,8 @@ Appellator = new Vue({
             swimmerTop: 0,
             swimmerRef: 0,
             swimmerLeft: -2,
-            swimmerWidth: 0
+            swimmerWidth: 0,
+            showModal: true
         }
     },
     mounted: function() {
