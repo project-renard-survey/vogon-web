@@ -154,20 +154,6 @@ var ConceptSearch = {
             if (this.force) {
                 payload['force'] = 'force';
             }
-<<<<<<< HEAD
-            Concept.search(payload)
-                .then(function (response) {
-                    self.concepts = response.body.results;
-                    self.searching = false;
-                })
-                .catch(function (error) {
-                    console.log('ConceptSearch:: search failed with', error);
-                    self.error = true;
-                    self.searching = false;
-                });
-        }
-    },
-=======
             Concept.search(payload).then(function(response) {
                 self.concepts = response.body.results;
                 self.searching = false;
@@ -179,7 +165,6 @@ var ConceptSearch = {
 
           }
         },
->>>>>>> 588c931e2f6c63b0e5f4d39175d645e5328822bc
 
     components: {
         'concept-list-item': ConceptListItem
@@ -1019,11 +1004,12 @@ RelationCreator = {
             update: function () {
                 self = this;
                 console.log()
-                /*this.prepareSubmission();
+                this.prepareSubmission();
             self = this;
             RelationTemplateResource.update({
                     id: this.id
-                }, {
+                }, 
+                {
                     fields: this.fields,
                     start: this.start,
                     end: this.end,
@@ -1041,9 +1027,9 @@ RelationCreator = {
                     self.error = true;
                     self.ready = false;
                 }); // TODO: implement callback and exception handling!!
-        }*/
             }
-        };
+        }
+    };
 
         RelationTemplateSelector = {
             data: function () {
