@@ -82,7 +82,8 @@
                                             v-on:cancelrelation="cancelRelation"
                                             v-bind:user=user
                                             v-bind:text=text
-                                            v-bind:template=template
+                                            v-bind:template=template 
+                                            v-bind:updateRelation=updateRelation
                                             v-bind:project=project>
                                         </relation-creator>
                                         <div class="appellation-type-selector text-right" v-if="textIsSelected()">
@@ -175,8 +176,9 @@
                                                     </div>
                                                     <relation-list
                                                         v-if="sidebar == 'relations'"
-                                                        v-bind:relations=relations
-                                                        v-on:selectrelation="selectRelation">
+                                                        v-bind:relations=relations  
+                                                        v-on:selectrelation="selectRelation"
+                                                        v-on:editrelation="editRelation">
                                                     </relation-list>
                                                     <appellation-list
                                                         v-if="sidebar == 'appellations'"
@@ -386,7 +388,7 @@
                         var node = event.cyTarget;
                         if (Appellator) {
                             Appellator.unselectAppellation();
-                        }
+                        } 
                     });
 
                 }

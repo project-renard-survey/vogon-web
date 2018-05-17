@@ -21,6 +21,7 @@ from annotations.forms import (RelationTemplatePartFormSet,
 from annotations.models import *
 from annotations import relations
 from concepts.models import Concept, Type
+from annotations.serializers import ConceptSerializer, AppellationSerializer, TemplatePartSerializer, TemplateSerializer, RelationSerializer
 
 import copy
 import json
@@ -209,6 +210,40 @@ def create_from_relationtemplate(request, template_id):
 
     return JsonResponse(response_data)
 
+@login_required
+def update_from_relationtemplate(request, template_id):
+    """
+    Create a :class:`.RelationSet` and constituent :class:`.Relation`\s from
+    a :class:`.RelationTemplate` and user annotations.
+
+    This is mainly used by the RelationTemplateController in the text
+    annotation  view.
+
+    Parameters
+    ----------
+    request : `django.http.requests.HttpRequest`
+    template_id : int
+
+    Returns
+    ----------
+    :class:`django.http.response.HttpResponse`
+    """
+
+    # TODO: this could also use quite a bit of attention in terms of
+    #  modularization.
+    template = get_object_or_404(RelationTemplate, pk=template_id)
+    if request.method == 'PATCH':
+        data = json.loads(request.body)
+        text = get_object_or_404(Text, pk=data['occursIn'])
+        project_id = data.get('project')
+        if project_id is None:
+            project_id = VogonUserDefaultProject.objects.get(for_user=request.user).project.id
+        relationset = relations.create_relationset(template, data, request.user, text, project_id)
+        response_data = {'relationset': relationset.id}
+    else:   # Not sure if we want to do anything for GET requests at this point.
+        response_data = {}
+
+    return JsonResponse(response_data)
 
 @staff_member_required
 def delete_relationtemplate(request, template_id):
@@ -228,3 +263,93 @@ def delete_relationtemplate(request, template_id):
                            'ERROR: Could not delete relation template because there is data associated with it')
 
     return HttpResponseRedirect(reverse('list_relationtemplate'))
+
+@login_required
+def prepare_edit_relationtemplate(request, relation_id, template_id):
+    response_data = {}
+    relations = Relation.objects.filter(part_of_id=relation_id)
+    relation_template_parts = RelationTemplatePart.objects.filter(part_of_id=template_id).order_by('internal_id')
+
+    '''
+    sort out which parts are needed for template parts and add labels
+    '''
+    temp = {}
+    for part in relation_template_parts:
+        temp[part.internal_id] = []
+        if part.source_label:
+            name = "source"
+            temp[part.internal_id].append({name: part.source_label})
+        if part.object_label:
+            name = "object" 
+            temp[part.internal_id].append({name: part.object_label})
+        if part.predicate_label:
+            name = "predicate"
+            temp[part.internal_id].append({name: part.predicate_label})
+    '''
+    collect ids to check for order
+    '''
+    ids = []
+    for relation in relations:
+        ids.append(relation.id)
+    '''
+    ids are added to the order list as they found to show the order of the relations
+    '''
+    order = []
+    for relation in relations:
+        if relation.predicate_id in ids:
+            order.append(relation.predicate_id)
+        if relation.object_object_id in ids:
+            order.append(relation.object_object_id)
+        if relation.source_object_id in ids:
+            order.append(relation.source_object_id)
+    '''
+    create sets to check for difference and add difference to the order list.
+    This adds the last relation to the order list
+    '''
+    orderSet = set(order)
+    idsSet = set(ids)
+    diff = list(idsSet.difference(orderSet))
+    order.extend(diff)
+    '''
+    get appellations and concepts for given relations that are need for the template part.
+    Must check that object id's are not in ids otherwise an object not found will be thrown.
+    Must reverse order since in the loop below the last items will actual be the first due to
+    the first getting added to the list first.
+    '''
+    reverse_order = order[::-1]
+    for c, relationId in enumerate(reverse_order):
+        relation = Relation.objects.get(id=relationId)
+        for tempPart in temp[c]:
+            if 'source' in tempPart and relation.source_object_id not in ids:
+                response_data[tempPart['source']] = {}
+                #Get Objects
+                source_appellation = Appellation.objects.get(id=relation.source_object_id)
+                source_concept = Concept.objects.get(id=source_appellation.interpretation_id)
+                #Serializers
+                serial = AppellationSerializer(source_appellation, context={'request': request})
+                response_data[tempPart['source']]['appellation'] = serial.data
+                serial = ConceptSerializer(source_concept, context={'request': request})
+                response_data[tempPart['source']]['concept'] = serial.data
+            elif 'object' in tempPart and relation.object_object_id not in ids:
+                response_data[tempPart['object']] = {}
+                #Get Objects
+                object_appellation = Appellation.objects.get(id=relation.object_object_id)
+                object_concept = Concept.objects.get(id=object_appellation.interpretation_id)
+                #Serializers
+                serial = AppellationSerializer(object_appellation, context={'request': request})
+                response_data[tempPart['object']]['appellation'] = serial.data
+                serial = ConceptSerializer(object_concept, context={'request': request})
+                response_data[tempPart['object']]['concept'] = serial.data
+
+            elif 'predicate' in tempPart and relation.predicate_id not in ids:
+                response_data[tempPart['predicate']] = {}
+                #Get Objects
+                predicate_appellation = Appellation.objects.get(id=relation.predicate_id)
+                predicate_concept = Concept.objects.get(id=predicate_appellation.interpretation_id)
+                #Serializers
+                serial = AppellationSerializer(predicate_appellation, context={'request': request})
+                response_data[tempPart['predicate']]['appellation'] = serial.data
+                serial = ConceptSerializer(predicate_concept, context={'request': request})
+                response_data[tempPart['predicate']]['concept'] = serial.data
+
+    return JsonResponse(response_data)

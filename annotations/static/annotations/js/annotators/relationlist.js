@@ -9,13 +9,18 @@ RelationListItem = {
                         <a class="btn btn-xs" v-on:click="select">
                             <span class="glyphicon glyphicon-hand-down"></span>
                         </a>
+                        <a v-if="!relation.submitted" class="btn btn-xs" v-on:click="edit">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
                     </span>
                     <div>{{ getRepresentation(relation) }}</div>
                     <div class="text-warning">Created by <strong>{{ getCreatorName(relation.createdBy) }}</strong> on {{ getFormattedDate(relation.created) }}</div>
+                    <p>{{ relation.submitted }} </p>
                 </li>`,
 
     methods: {
         select: function() { this.$emit('selectrelation', this.relation); },
+        edit: function() { this.$emit('editrelation', this.relation);},
         isSelected: function() { return this.relation.selected; },
         getRepresentation: function(relation) {
             if (relation.representation) {
@@ -34,6 +39,7 @@ RelationList = {
     template: `<ul class="list-group relation-list">
                    <relation-list-item
                        v-on:selectrelation="selectRelation"
+                       v-on:editrelation="editRelation"
                        v-bind:relation=relation
                        v-for="relation in relations">
                    </relation-list-item>
@@ -42,6 +48,7 @@ RelationList = {
         'relation-list-item': RelationListItem
     },
     methods: {
-        selectRelation: function(relation) { this.$emit('selectrelation', relation); }
+        selectRelation: function(relation) { this.$emit('selectrelation', relation); },
+        editRelation: function(relation) { this.$emit('editrelation', relation); }
     }
 }

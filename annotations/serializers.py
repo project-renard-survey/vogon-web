@@ -92,7 +92,6 @@ class AppellationSerializer(serializers.ModelSerializer):
                   'startPos', 'stringRep', 'tokenIds', 'interpretation_label',
                   'interpretation_type_label', 'position', 'project')
 
-
 class AppellationPOSTSerializer(serializers.ModelSerializer):
     position = DocumentPositionSerializer(required=False)
     tokenIds = serializers.CharField(required=False)
@@ -122,7 +121,7 @@ class RelationSetSerializer(serializers.ModelSerializer):
     class Meta:
         model = RelationSet
         fields = ('id', 'label', 'created', 'template', 'createdBy', 'occursIn',
-                  'appellations', 'concepts', 'project', 'representation', 'date_appellations' )    #
+                  'appellations', 'concepts', 'project', 'representation', 'date_appellations', 'submitted' )
 
 
 class TemporalBoundsSerializer(serializers.ModelSerializer):
@@ -136,3 +135,15 @@ class TextCollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = TextCollection
         fields = '__all__'
+
+class TemplatePartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RelationTemplatePart
+        fields = '__all__'
+
+class TemplateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RelationTemplate
+        fields = '__all__'
+
+
