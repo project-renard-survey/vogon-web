@@ -154,6 +154,7 @@ var ConceptSearch = {
             if (this.force) {
                 payload['force'] = 'force';
             }
+<<<<<<< HEAD
             Concept.search(payload)
                 .then(function (response) {
                     self.concepts = response.body.results;
@@ -166,6 +167,19 @@ var ConceptSearch = {
                 });
         }
     },
+=======
+            Concept.search(payload).then(function(response) {
+                self.concepts = response.body.results;
+                self.searching = false;
+            }).catch(function(error) {
+                console.log("ConceptSearch:: search failed with", error);
+                self.error = true;
+                self.searching = false;
+            });
+
+          }
+        },
+>>>>>>> 588c931e2f6c63b0e5f4d39175d645e5328822bc
 
     components: {
         'concept-list-item': ConceptListItem

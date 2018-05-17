@@ -573,6 +573,7 @@ class ConceptViewSet(viewsets.ModelViewSet):
         return Response({'results': results})
 
 
+
     def get_queryset(self, *args, **kwargs):
         """
         Filter by part of speach (``pos``).
