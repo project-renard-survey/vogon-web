@@ -49,6 +49,8 @@ RelationList = {
     },
     methods: {
         selectRelation: function(relation) { this.$emit('selectrelation', relation); },
-        editRelation: function(relation) { this.$emit('editrelation', relation); }
+        editRelation: function(relation) { 
+            this.$emit('editrelation', relation);
+        }
     }
 }

@@ -612,6 +612,8 @@ RelationField = {
             }
         },
         handleSelection: function (selection) {
+            console.log("**************************");
+            console.log(selection);
             this.stopListening();
             this.selection = selection;
             if (this.field.type == 'TP') {
@@ -619,8 +621,12 @@ RelationField = {
                 this.value_label = selection.interpretation.label;
             } else if (this.field.type == 'CO') {
                 // Assume it's a position.
-                //this.value_label = selection.representation;
-                this.value_label = selection.stringRep;
+                //Use sringRep if available which is only the case when editing otherwise use representation when creating
+                if (selection.stringRep != undefined){
+                    this.value_label = selection.stringRep;
+                } else {
+                    this.value_label = selection.representation;
+                }
             } else if (this.field.type == 'DT') {
                 this.value_label = selection.dateRepresentation;
             }
@@ -657,18 +663,20 @@ RelationField = {
                     this.handleSelection(this.relations[x].appellation);
                 }
             }
-            console.log(this.relations);
+            EventBus.$emit('sendRelations', this.relations);
+            
         }
     },
     mounted: function () {
         var self = this;
         EventBus.$on('selecttemplate', function (valueOfEvent) {
+            console.log(self.relations)
             self.relations = valueOfEvent;
             self.setFields();
         });
     }
 };
-//
+
 
 RelationTemplate = {
     props: ['fields', 'name', 'description'],
@@ -709,6 +717,8 @@ RelationTemplate = {
                 this.$emit('fieldisdonelisteningfortext');
         },
         registerData: function (field, data) {
+            console.log("&&&&&&&&&&&&&&");
+            console.log(data);
             this.$emit('registerdata', field, data);
         },
         unregisterData: function (field) {
@@ -857,7 +867,7 @@ RelationDateAssignment = {
 };
 
 RelationCreator = {
-        props: ['text', 'project', 'user', 'template', 'updateRelation'],
+        props: ['text', 'project', 'user', 'template', 'updateRelation', 'relation'],
         data: function () {
             return {
                 field_data: {},
@@ -866,6 +876,7 @@ RelationCreator = {
                 start: null,
                 end: null,
                 occur: null,
+                relations: null,
             };
         },
         computed: {
@@ -897,7 +908,7 @@ RelationCreator = {
                     <relation-template
                         v-on:fieldislisteningfortext="fieldIsListeningForText"
                         v-on:fieldisdonelisteningfortext="fieldIsDoneListeningForText"
-                        v-on:registerdata="registerData" 
+                        v-on:registerdata="registerData"
                         v-on:unregisterdata="unregisterData"
                         v-bind:fields=fields
                         v-bind:description=description
@@ -1003,9 +1014,8 @@ RelationCreator = {
             },
             update: function () {
                 self = this;
-                console.log()
                 this.prepareSubmission();
-            self = this;
+                
             RelationTemplateResource.update({
                     id: this.id
                 }, 
@@ -1016,7 +1026,9 @@ RelationCreator = {
                     occur: this.occur,
                     occursIn: this.text.id,
                     createdBy: this.user.id,
-                    project: this.project.id
+                    project: this.project.id,
+                    relationsetId: this.relations.relationSet_id
+
                 })
                 .then(function (response) {
                     this.ready = false;
@@ -1028,6 +1040,11 @@ RelationCreator = {
                     self.ready = false;
                 }); // TODO: implement callback and exception handling!!
             }
+        },
+        created: function () {
+        EventBus.$on('sendRelations', function (valueOfEvent) {
+            self.relations = valueOfEvent;
+        });
         }
     };
 

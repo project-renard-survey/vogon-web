@@ -19,7 +19,7 @@ var RelationTemplateResource = Vue.resource(BASE_URL + '/relationtemplate{/id}/'
     },
     update: {
         method: 'PATCH',
-        url: BASE_URL + '/relationtemplate{/id}/PATCH/'
+        url: BASE_URL + '/relationtemplate{/id}/update/'
     }
 });
 var ConceptType = Vue.resource(BASE_URL + '/rest/type{/id}');

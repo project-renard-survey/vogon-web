@@ -27,6 +27,7 @@ import copy
 import json
 import logging
 import networkx as nx
+import pdb
 
 logger = logging.getLogger(__name__)
 logger.setLevel('ERROR')
@@ -196,9 +197,11 @@ def create_from_relationtemplate(request, template_id):
 
     # TODO: this could also use quite a bit of attention in terms of
     #  modularization.
+    print("CREATING HARDCORE")
     template = get_object_or_404(RelationTemplate, pk=template_id)
     if request.method == 'POST':
         data = json.loads(request.body)
+        print(data)
         text = get_object_or_404(Text, pk=data['occursIn'])
         project_id = data.get('project')
         if project_id is None:
@@ -231,19 +234,26 @@ def update_from_relationtemplate(request, template_id):
 
     # TODO: this could also use quite a bit of attention in terms of
     #  modularization.
+    import pprint
+    pp = pprint.PrettyPrinter(indent=4)
+    print("UPDATING HARDCORE")
     template = get_object_or_404(RelationTemplate, pk=template_id)
     if request.method == 'PATCH':
         data = json.loads(request.body)
+        pp.pprint(data)
+        #pdb.set_trace()
         text = get_object_or_404(Text, pk=data['occursIn'])
         project_id = data.get('project')
         if project_id is None:
             project_id = VogonUserDefaultProject.objects.get(for_user=request.user).project.id
-        relationset = relations.create_relationset(template, data, request.user, text, project_id)
-        response_data = {'relationset': relationset.id}
-    else:   # Not sure if we want to do anything for GET requests at this point.
-        response_data = {}
+        relationset =  relations.update_relationset(template, data, request.user, text, project_id)  #relations.create_relationset(template, data, request.user, text, project_id)
+        # for d in data['fields']:
+        #     pp.pprint(d.get('part_of'))
+    #     response_data = {'relationset': relationset.id}
+    # else:   # Not sure if we want to do anything for GET requests at this point.
+    #     response_data = {}
 
-    return JsonResponse(response_data)
+    return JsonResponse({"help":"wanted"})
 
 @staff_member_required
 def delete_relationtemplate(request, template_id):
@@ -266,13 +276,16 @@ def delete_relationtemplate(request, template_id):
 
 @login_required
 def prepare_edit_relationtemplate(request, relation_id, template_id):
+
     response_data = {}
     relations = Relation.objects.filter(part_of_id=relation_id)
     relation_template_parts = RelationTemplatePart.objects.filter(part_of_id=template_id).order_by('internal_id')
-
+    for part in relation_template_parts:
+        print(part.id)
     '''
     sort out which parts are needed for template parts and add labels
     '''
+
     temp = {}
     for part in relation_template_parts:
         temp[part.internal_id] = []
@@ -319,6 +332,10 @@ def prepare_edit_relationtemplate(request, relation_id, template_id):
     reverse_order = order[::-1]
     for c, relationId in enumerate(reverse_order):
         relation = Relation.objects.get(id=relationId)
+        response_data["relation_id"] = relation.id
+        response_data["created"] = relation.created
+        response_data["relationSet_id"] = relation.part_of_id
+        print("temp is {} and {}".format(temp, c))
         for tempPart in temp[c]:
             if 'source' in tempPart and relation.source_object_id not in ids:
                 response_data[tempPart['source']] = {}
@@ -330,6 +347,8 @@ def prepare_edit_relationtemplate(request, relation_id, template_id):
                 response_data[tempPart['source']]['appellation'] = serial.data
                 serial = ConceptSerializer(source_concept, context={'request': request})
                 response_data[tempPart['source']]['concept'] = serial.data
+                # Must include part of id
+                #response_data[tempPart['source']]['part_of'] = relation.part_of_id
             elif 'object' in tempPart and relation.object_object_id not in ids:
                 response_data[tempPart['object']] = {}
                 #Get Objects
@@ -340,7 +359,8 @@ def prepare_edit_relationtemplate(request, relation_id, template_id):
                 response_data[tempPart['object']]['appellation'] = serial.data
                 serial = ConceptSerializer(object_concept, context={'request': request})
                 response_data[tempPart['object']]['concept'] = serial.data
-
+                # Must include part of id
+                #response_data[tempPart['object']]['part_of'] = relation.part_of_id
             elif 'predicate' in tempPart and relation.predicate_id not in ids:
                 response_data[tempPart['predicate']] = {}
                 #Get Objects
@@ -351,5 +371,9 @@ def prepare_edit_relationtemplate(request, relation_id, template_id):
                 response_data[tempPart['predicate']]['appellation'] = serial.data
                 serial = ConceptSerializer(predicate_concept, context={'request': request})
                 response_data[tempPart['predicate']]['concept'] = serial.data
+                # Must include part of id
+                #response_data[tempPart['object']]['part_of'] = relation.part_of_id
+        else:
+            continue
 
     return JsonResponse(response_data)
